@@ -1,18 +1,12 @@
 const express = require('express');
 const path = require('path');
-const rootDir = require('../util/path')
+const contacUsController = require('../controllers/contactus');
 const router = express.Router();
 
-// /admin/add-product => GET
-router.get('/contact-us',(req, res, next) => {
-    console.log('in another middle ware');
-    res.sendFile(path.join(rootDir,'views','contact-us.html'));
-})
+// /admin/contact-us => GET
+router.get('/contact-us', contacUsController.getAddContactUs);
 
-// /admin/add-product => POST
-router.post('/contact-us',(req, res, next) => {
-    console.log(req.body);
-    res.redirect('/admin/success');
-})
+// /admin/contact-us => POST
+router.post('/contact-us', contacUsController.postAddContactUs);
 
 module.exports = router;
