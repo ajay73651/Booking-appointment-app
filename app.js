@@ -1,25 +1,29 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const path = require('path');
+const express = require("express");
+const bodyParser = require("body-parser");
+const path = require("path");
 const app = express();
-
-const adminRoutes = require('./routes/admin');
-const shopRoutes = require('./routes/shop');
-const contactUs = require('./routes/contact-us');
-const success = require('./routes/success');
+const sequelize = require("./util/database");
+const adminRoutes = require("./routes/admin");
+const shopRoutes = require("./routes/shop");
+const contactUs = require("./routes/contact-us");
+const success = require("./routes/success");
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, "public")));
 
-app.use('/admin', adminRoutes)
+app.use("/admin", adminRoutes);
 app.use(shopRoutes);
-app.use('/admin', contactUs);
-app.use('/admin', success);
-
-
+app.use("/admin", contactUs);
+app.use("/admin", success);
 
 app.use((req, res, next) => {
-    res.status(404).sendFile(path.join(__dirname, 'views', '404.html'))
-})
+  res.status(404).sendFile(path.join(__dirname, "views", "404.html"));
+});
 
-app.listen(4000);
-
+sequelize
+  .sync()
+  .then(() => {
+    app.listen(4000);
+  })
+  .catch((err) => {
+    console.error(err);
+  });
