@@ -9,6 +9,9 @@ const contactUs = require("./routes/contact-us");
 const success = require("./routes/success");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
+// Configure EJS as the template engine
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views');
 
 app.use("/admin", adminRoutes);
 app.use(shopRoutes);
